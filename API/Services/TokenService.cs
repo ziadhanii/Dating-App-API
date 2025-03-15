@@ -8,8 +8,8 @@ public class TokenService(IConfiguration config) : ITokenService
     {
         var claims = new List<Claim>
         {
-            new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
-            new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+            new(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new(ClaimTypes.Name, user.UserName)
         };
 
         var credentials = new SigningCredentials(_key, SecurityAlgorithms.HmacSha512Signature);

@@ -12,6 +12,7 @@ public class MappingProfiles : Profile
                 o =>
                     o.MapFrom(s => s.Photos.FirstOrDefault(x => x.IsMain)!.Url));
 
+        CreateMap<MemberUpdateDto, AppUser>();
         CreateMap<Photo, PhotoDto>();
     }
 }
