@@ -31,8 +31,9 @@ bin
 obj
 
 # Visual Studio Code
-.vscode/
-.vs
+*.vscode/
+*.vs
+*.github/
 
 # ASP.NET Scaffolding
 ScaffoldingReadMe.txt

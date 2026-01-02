@@ -1,5 +1,4 @@
-using API.Data;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +11,35 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 );
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "Dating-App-API",
+        Version = "v1",
+        Contact = new OpenApiContact
+        {
+            Name = "Dating-App-API",
+            Url = new Uri("https://github.com/ziadhanii/Dating-App-API"),
+            Email = "ziadhani64@gmail.com"
+        },
+    });
+
+    options.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
+    {
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        Description = "JWT Authorization header using the Bearer scheme."
+    });
+
+    options.AddSecurityRequirement(document =>
+        new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference("bearer", document)] = []
+        });
+});
+
 
 builder.Services.AddCors(options =>
 {
@@ -28,7 +55,21 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+builder.Services.AddScoped<ITokenService, TokenService>();
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        var tokenKey = builder.Configuration["TokenKey"]
+                       ?? throw new Exception("Token key not found - Program.cs");
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey)),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
 var app = builder.Build();
 
 app.UseSwagger();
@@ -40,6 +81,7 @@ app.UseSwaggerUI(c =>
 
 app.UseHttpsRedirection();
 app.UseCors("CorsPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
