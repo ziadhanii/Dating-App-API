@@ -1,11 +1,10 @@
 {
   "openapi": "3.0.4",
   "info": {
-    "title": "Survey Basket API",
-    "description": "API for Survey Basket",
+    "title": "Dating-App-API",
     "contact": {
-      "name": "Survey Basket",
-      "url": "https://github.com/ziadhanii/Survey-Basket-API",
+      "name": "Dating-App-API",
+      "url": "https://github.com/ziadhanii/Dating-App-API",
       "email": "ziadhani64@gmail.com"
     },
     "version": "v1"
@@ -298,14 +297,19 @@
       }
     },
     "securitySchemes": {
-      "Bearer": {
+      "bearer": {
         "type": "http",
-        "description": "Enter JWT Bearer token **_only_**",
+        "description": "JWT Authorization header using the Bearer scheme.",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
     }
   },
+  "security": [
+    {
+      "bearer": [ ]
+    }
+  ],
   "tags": [
     {
       "name": "Account"

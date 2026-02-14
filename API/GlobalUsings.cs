@@ -22,3 +22,4 @@ global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Authorization;
 global using System.ComponentModel.DataAnnotations;
 global using System.Security.Cryptography;
+global using Microsoft.OpenApi;

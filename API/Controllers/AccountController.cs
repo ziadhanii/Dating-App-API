@@ -1,16 +1,13 @@
 ﻿namespace API.Controllers;
 
-
 public class AccountController(AppDbContext context, ITokenService tokenService) : BaseApiController
 {
-
     [HttpPost("register")]
     public async Task<ActionResult<UserDto>> Register([FromBody] RegisterRequestDto request)
     {
         if (await IsEmailExists(request.Email))
-        {
             return BadRequest("Email is already in use");
-        }
+
 
         using var hmac = new HMACSHA512();
 
@@ -37,7 +34,6 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
     }
 
 
-
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login([FromBody] LoginRequestDto request)
     {
@@ -48,15 +44,14 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
 
         using var hmac = new HMACSHA512(user.PasswordSalt);
         var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(request.Password));
+
         for (int i = 0; i < computedHash.Length; i++)
         {
             if (computedHash[i] != user.PasswordHash[i])
-            {
                 return Unauthorized("Invalid email or password");
-            }
         }
 
-        UserDto userDto = new UserDto
+        var userDto = new UserDto
         {
             Id = user.Id.ToString(),
             Email = user.Email,
@@ -68,5 +63,4 @@ public class AccountController(AppDbContext context, ITokenService tokenService)
 
 
     private async Task<bool> IsEmailExists(string email) => await context.Users.AnyAsync(u => u.Email == email);
-
 }

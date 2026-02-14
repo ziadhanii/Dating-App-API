@@ -1,5 +1,3 @@
-using Microsoft.OpenApi;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -62,6 +60,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         var tokenKey = builder.Configuration["TokenKey"]
                        ?? throw new Exception("Token key not found - Program.cs");
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
