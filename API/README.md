@@ -50,22 +50,26 @@ API/
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/ziadhanii/Dating-App-API.git
    cd Dating-App-API/API
    ```
 
 2. Restore dependencies:
+
    ```bash
    dotnet restore
    ```
 
 3. Update the database:
+
    ```bash
    dotnet ef database update
    ```
 
 4. Run the application:
+
    ```bash
    dotnet run
    ```
@@ -75,10 +79,12 @@ The API will be available at `https://localhost:5001` (or the port specified in 
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/account/register` - Register a new user
 - `POST /api/account/login` - Login user
 
 ### Members
+
 - `GET /api/members` - Get all members
 - `GET /api/members/{id}` - Get member by ID
 
@@ -98,11 +104,13 @@ Update `appsettings.json` with your configuration:
 ## Database Migrations
 
 Create a new migration:
+
 ```bash
 dotnet ef migrations add MigrationName
 ```
 
 Update database:
+
 ```bash
 dotnet ef database update
 ```
